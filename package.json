@@ -1,0 +1,8 @@
+{
+  "name": "Calculator",
+  "description": "A little module to parse mathematical expressions",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "1.6.0"
+  }
+}
