@@ -35,6 +35,6 @@ function calculate(rpn_expression) {
   return stack.pop();
 }
 
-var expression = '3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3';
+var expression = process.argv[2];
 var rpn_expression = RPNTranspiler.transpile(expression);
 console.log(calculate(rpn_expression));
