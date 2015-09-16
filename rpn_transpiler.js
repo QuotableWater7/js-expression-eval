@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Token = require('./rpn_token');
 
-function calculate(expression) {
+function convertToRPN(expression) {
   var tokens = [];
   var output = [];
   var current_number = '';
@@ -74,4 +74,4 @@ function stripWhitespace(string) {
   return string.replace(/\s/g, '');
 }
 
-module.exports = { transpile: calculate };
+module.exports = { convertToRPN: convertToRPN };
