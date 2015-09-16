@@ -29,6 +29,10 @@ module.exports = function (string) {
     },
 
     value: function () {
+      if (this.isNumber()) {
+        return parseFloat(string);
+      }
+
       return string;
     },
 
