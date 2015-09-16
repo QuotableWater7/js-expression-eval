@@ -9,12 +9,12 @@ function Transpiler(expression) {
   this.stack = [];
   this.output = [];
 
-  this.initialize();
+  this.initializeTokens();
 }
 
 _.extend(Transpiler.prototype, {
 
-  initialize: function () {
+  initializeTokens: function () {
     var match = TOKENIZER_REGEX.exec(this.expression);
 
     while (match !== null) {
