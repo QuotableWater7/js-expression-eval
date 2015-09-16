@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-module.exports = function (char) {
+module.exports = function (string) {
   return {
     isLesserPrecedence: function (token) {
       return this.precedence() < token.precedence();
@@ -19,41 +19,41 @@ module.exports = function (char) {
     },
 
     precedence: function () {
-      if (_.contains(['+', '-'], char)) {
+      if (_.contains(['+', '-'], string)) {
         return 2;
-      } else if (_.contains(['*', '/'], char)) {
+      } else if (_.contains(['*', '/'], string)) {
         return 3;
-      } else if (char === '^') {
+      } else if (string === '^') {
         return 4;
       }
     },
 
     value: function () {
-      return char;
+      return string;
     },
 
     isOperator: function () {
-      return _.contains(['+', '-', '*', '/', '^'], char);
+      return _.contains(['+', '-', '*', '/', '^'], string);
     },
 
     isNumber: function () {
-      return char >= '0' && char <= '9';
+      return _.isFinite(string);
     },
 
     isLeftParen: function () {
-      return char === '(';
+      return string === '(';
     },
 
     isRightParen: function () {
-      return char === ')';
+      return string === ')';
     },
 
     isLeftAssociative: function () {
-      return char !== '^';
+      return string !== '^';
     },
 
     isRightAssocative: function () {
-      return char === '^';
+      return string === '^';
     }
   };
 };

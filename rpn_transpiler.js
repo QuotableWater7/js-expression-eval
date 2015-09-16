@@ -3,7 +3,8 @@ var Token = require('./rpn_token');
 
 function calculate(expression) {
   var tokens = [];
-  var output = '';
+  var output = [];
+  var current_number = '';
   var value;
 
   expression = stripWhitespace(expression);
@@ -21,15 +22,20 @@ function calculate(expression) {
   function processChar(char) {
     var token = new Token(char);
 
+    if (!token.isNumber() && output !== '') {
+      output.push(new Token(parseFloat(current_number, 10)));
+      current_number = '';
+    }
+
     switch (true) {
     case token.isNumber():
-      output += char;
+      current_number += char;
       break;
     case token.isOperator():
       var token = new Token(char);
       while (tokens.length && lastToken().isOperator()) {
         if (shouldPopExistingToken(token)) {
-          output += tokens.pop().value();
+          output.push(tokens.pop());
         } else {
           break;
         }
@@ -41,7 +47,7 @@ function calculate(expression) {
       break;
     case token.isRightParen():
       while (!lastToken().isLeftParen()) {
-        output += tokens.pop().value();
+        output.push(tokens.pop());
       }
       tokens.pop();
       break;
@@ -49,10 +55,15 @@ function calculate(expression) {
   }
 
   function processRemainingOperators() {
-    while (tokens.length) { output += tokens.pop().value(); }
+    while (tokens.length) { output.push(tokens.pop()); }
   }
 
   _.each(expression, processChar);
+
+  if (current_number !== '') {
+    output.push(new Token(parseFloat(current_number, 10)));
+  }
+
   processRemainingOperators();
 
   return output;

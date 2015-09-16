@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var Token = require('./rpn_token');
 var RPNTranspiler = require('./rpn_transpiler');
 
 function expressionRunner(operator, arg1, arg2) {
@@ -19,20 +20,22 @@ function expressionRunner(operator, arg1, arg2) {
 function calculate(rpn_expression) {
   var stack = [];
 
-  _.each(rpn_expression, function (char) {
+  _.each(rpn_expression, function (token) {
     switch (true) {
-    case char >= '0' && char <= '9':
-      stack.push(parseFloat(char));
+    case token.isNumber():
+      stack.push(token);
       break;
     default:
       var arg2 = stack.pop();
       var arg1 = stack.pop();
-      stack.push(expressionRunner(char, arg1, arg2));
+      var result = expressionRunner(token.value(), arg1.value(), arg2.value());
+
+      stack.push(new Token(result));
       break;
     }
   });
 
-  return stack.pop();
+  return stack.pop().value();
 }
 
 var expression = process.argv[2];
