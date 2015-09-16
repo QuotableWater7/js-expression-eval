@@ -39,5 +39,5 @@ function calculate(rpn_expression) {
 }
 
 var expression = process.argv[2];
-var rpn_expression = RPNTranspiler.convertToRPN(expression);
+var rpn_expression = RPNTranspiler(expression);
 console.log(calculate(rpn_expression));

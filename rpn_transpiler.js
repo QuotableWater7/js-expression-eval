@@ -67,6 +67,7 @@ _.extend(Transpiler.prototype, {
   },
 
   shouldPopExistingToken: function (token) {
+    debugger;
     return
       token.isLeftAssociative() &&
       token.isLessOrEqualPrecedence(this.lastOnStack()) ||
@@ -78,13 +79,14 @@ _.extend(Transpiler.prototype, {
     while (this.stack.length) {
       this.output.push(this.stack.pop());
     }
+  },
+
+  _: function (list) {
+    return _.map(list, function (i) { return i.value(); })
   }
 
 });
 
-function convertToRPN(expression) {
-  var transpiler = new Transpiler(expression);
-  return transpiler.generateTokens();
+module.exports = function (expression) {
+  return new Transpiler(expression).generateTokens();
 }
-
-module.exports = { convertToRPN: convertToRPN };
